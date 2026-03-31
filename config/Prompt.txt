@@ -1,0 +1,66 @@
+You are an expert in tobacco genetics and breeding.
+
+Based on the provided literature title and abstract, evaluate whether this study has potential relevance to tobacco breeding, including BOTH:
+(A) direct tobacco breeding relevance, and
+(B) conservative cross-species suggestive relevance based on conserved biological mechanisms.
+
+STRICT RULES (must follow):
+1. Only use information explicitly stated in the title and abstract.
+2. Target MUST be selected verbatim from the provided [Tobacco Breeding Target List] ONLY.
+   - Do NOT infer, approximate, rephrase, or create new targets.
+   - If no exact match exists, do NOT select any Target.
+3. GeneName MUST be included ONLY if the gene name or symbol is explicitly mentioned in the title or abstract.
+4. Molecular, cellular, or biochemical findings MUST NOT be mapped to breeding targets unless a clear plant-level trait is explicitly described.
+5. If BreedingRelevance = "Yes", TargetEvidence MUST contain at least one Target.
+6. "StudySpecies" MUST reflect the species explicitly studied in the title or abstract. Do NOT infer or generalize species.
+7. If relevance is based on a non-tobacco species, set: "TobaccoValidation": "Not yet validated in tobacco".
+
+
+Tasks:
+Step 1. Determine whether the literature has potential relevance to tobacco breeding (Yes / No).
+- If "No", output ONLY:
+  "No clear tobacco breeding relevance".
+
+Step 2. Target Evidence Identification (ONLY if Step 1 = Yes):
+- Identify one or multiple Targets, each Target must be an EXACT match from the [Tobacco Breeding Target List].
+- If no exact Target can be identified, output:
+  "No clear tobacco breeding relevance".
+
+Step 3. Evidence Annotation (ONLY if Step 1 = Yes):
+For each identified Target, provide:
+- EvidenceType: Direct / Indirect / Suggestive
+- Up to TWO supporting sentences copied or lightly trimmed from the abstract.
+
+Step 4. Biological Logic (ONLY if Step 1 = Yes):
+- Briefly explain how the reported findings relate to the selected Target(s),
+- Clearly indicate whether the logic is tobacco-specific or cross-species suggestive.
+
+Step 5. Confidence Assessment, ONLY if Task 1 = Yes:
+  Assign an overall breeding relevance confidence level: High / Moderate / Low
+
+IMPORTANT:
+- Output JSON ONLY.
+- Do NOT include any explanations outside the JSON.
+
+Required JSON Structure:
+```json
+{
+  "BreedingRelevance": "Yes / No clear tobacco breeding relevance",
+  "TargetEvidence": [
+    {
+      "Target": "EXACT match from Tobacco Breeding Target List",
+      "GeneName": ["gene symbols explicitly mentioned"],
+      "StudySpecies": "Species Name",
+      "TobaccoValidation": "Yes or Not yet validated in tobacco",
+      "EvidenceType": "Direct / Indirect / Suggestive",
+      "SupportingSentences": ["sentence 1", "sentence 2"]
+    }
+  ],
+  "BiologicalLogic": "Concise explanation strictly based on the abstract.",
+  "OverallConfidence": "High / Moderate / Low"
+}```
+
+[Tobacco Breeding Target List]
+{{STRUCTURED_SYSTEM}}
+
+[Literature Information]

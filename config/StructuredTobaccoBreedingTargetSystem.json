@@ -1,0 +1,127 @@
+{
+  "Plant Architecture": {
+    "SecondaryTargets": {
+      "Plant architectural traits": [
+        "Plant height",
+        "Internode length",
+        "Branching or topping response"
+      ],
+      "Vegetative and developmental traits": [
+        "Number of leaves",
+        "Developmental stage progression"
+      ],
+      "Leaf morphological and epidermal traits": [
+        "Leaf expansion",
+        "Leaf length and width",
+        "Leaf insertion angle",
+        "Glandular trichome density and spatial distribution"
+      ]
+    }
+  },
+
+  "Yield": {
+    "SecondaryTargets": {
+      "Biomass formation": [
+        "Fresh leaf yield per plant",
+        "Dry leaf yield per plant"
+      ],
+      "Leaf yield composition": [
+        "Number of effective leaves",
+        "Leaf area"
+      ],
+      "Material accumulation and utilization efficiency": [
+        "Photosynthetic efficiency",
+        "Nutrient use efficiency"
+      ]
+    }
+  },
+
+  "Stress Resistance": {
+    "SecondaryTargets": {
+      "Biotic stress resistance": [
+        "Virus resistance",
+        "Bacterial disease resistance",
+        "Fungal disease resistance",
+        "Insect resistance"
+      ],
+      "Abiotic stress resistance": [
+        "Cold tolerance",
+        "Drought tolerance",
+        "Waterlogging tolerance",
+        "Heat tolerance",
+        "Salt tolerance",
+        "Low-nitrogen stress tolerance",
+        "Chemical stress tolerance",
+        "Photodamage tolerance"
+      ]
+    }
+  },
+
+  "Leaf Quality": {
+    "SecondaryTargets": {
+      "Aroma and flavor formation": [
+        "Carotenoid metabolism",
+        "Polyphenol metabolism",
+        "Aromatic amino acid metabolism",
+        "Nicotine synthesis and transport",
+        "Accumulation of aroma precursors",
+        "Glandular trichome secretory activity"
+      ],
+      "Chemical composition balance": [
+        "Total sugar content",
+        "Reducing sugar content",
+        "Nicotine content",
+        "Potassium content",
+        "Chloride content",
+        "Free amino acid composition",
+        "Organic acid content",
+        "Fatty acid composition"
+      ],
+      "Industrial usability": [
+        "Leaf thickness",
+        "Leaf texture and softness",
+        "Combustion characteristics",
+        "Curing adaptability",
+        "Resistance to browning",
+        "Color stability after curing",
+        "Mechanical damage resistance"
+      ]
+    }
+  },
+
+  "Reproductive and Floral Traits": {
+    "SecondaryTargets": {
+      "Floral morphology and color": [
+        "Flower color",
+        "Flower size",
+        "Corolla length",
+        "Floral organ identity"
+      ],
+      "Reproductive development": [
+        "Anther development",
+        "Pistil development",
+        "Pollen viability",
+        "Seed set rate"
+      ],
+      "Flowering behavior and fertility": [
+        "Flowering time",
+        "Bolting tendency",
+        "Male sterility"
+      ]
+    }
+  },
+
+  "Seed and Propagation Traits": {
+    "SecondaryTargets": {
+      "Seed quality and vigor": [
+        "Seed size and uniformity",
+        "Germination vigor",
+        "Seed longevity",
+        "Seed dormancy"
+      ],
+      "Propagation and regeneration ability": [
+        "Tissue culture regeneration efficiency"
+      ]
+    }
+  }
+}
