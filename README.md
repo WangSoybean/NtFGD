@@ -164,4 +164,4 @@ this code, please cite the manuscript; machine-readable metadata is in
 
 ## Contact
 
-*&lt; corresponding author / maintainer &gt;* — *&lt; email &gt;*
+*&lt; corresponding author: Junping Gao / maintainer: Shuaibin Wang &gt;* — *&lt; email: 765278332@qq.com &gt;*
