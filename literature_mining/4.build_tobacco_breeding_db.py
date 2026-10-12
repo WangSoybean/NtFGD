@@ -1,3 +1,27 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# =====================================================================
+# 4.build_tobacco_breeding_db.py  —  Assemble the target knowledge base
+# ---------------------------------------------------------------------
+# Joins the LLM curation results (breeding_results.db, step 3) with the
+# literature metadata (literature.db) and flattens the per-paper target
+# evidence into a single `target_knowledge` table, then computes
+# per-target paper counts by confidence level.
+#
+# Inputs
+#   breeding_results.db        curated results (from step 3)
+#   literature.db              literature metadata, table
+#                              `literature_metadata` (pmid, doi, title,
+#                              abstract, pub_date, journal)
+#
+# Outputs
+#   tobacco_breeding_knowledge.db   target_knowledge table + indexes
+#   target_statistics.json          per-target counts
+#                                   {total, High, Moderate, Low}
+#
+# Usage
+#   python 4.build_tobacco_breeding_db.py
+# =====================================================================
 import sqlite3
 import json
 from collections import defaultdict
@@ -48,7 +72,7 @@ def init_output_db(conn):
 def build_knowledge_base():
 
     # ===============================
-    # 统计结构（避免重复论文）
+    # Statistics structure (deduplicate papers)
     # ===============================
     target_stats = defaultdict(lambda: {
         "pmids": set(),
@@ -57,15 +81,15 @@ def build_knowledge_base():
         "Low": set()
     })
 
-    # connect breeding db
+    # connect to the breeding database
     conn = sqlite3.connect(BREEDING_DB)
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
 
-    # attach literature db
+    # attach the literature database
     cur.execute(f"ATTACH DATABASE '{LITERATURE_DB}' AS lit")
 
-    # output db
+    # output database
     out_conn = sqlite3.connect(OUTPUT_DB)
     init_output_db(out_conn)
     out_cur = out_conn.cursor()
@@ -110,7 +134,7 @@ def build_knowledge_base():
                 continue
 
             # ===============================
-            # 插入数据库
+            # Insert into the database
             # ===============================
             out_cur.execute("""
                 INSERT INTO target_knowledge (
@@ -142,7 +166,7 @@ def build_knowledge_base():
             inserted += 1
 
             # ===============================
-            # 统计逻辑（用 set 防止重复）
+            # Statistics (sets keep each paper unique)
             # ===============================
             target_stats[target_name]["pmids"].add(pmid)
 
@@ -154,10 +178,10 @@ def build_knowledge_base():
     conn.close()
     out_conn.close()
 
-    print(f"✅ Tobacco breeding knowledge base built: {inserted} records")
+    print(f"Tobacco breeding knowledge base built: {inserted} records")
 
     # ===============================
-    # 生成统计 JSON
+    # Write the statistics JSON
     # ===============================
     final_stats = {}
 
@@ -172,7 +196,7 @@ def build_knowledge_base():
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
         json.dump(final_stats, f, indent=2, ensure_ascii=False)
 
-    print(f"📊 Target statistics JSON generated: {OUTPUT_JSON}")
+    print(f"Target statistics JSON generated: {OUTPUT_JSON}")
 
 
 if __name__ == "__main__":

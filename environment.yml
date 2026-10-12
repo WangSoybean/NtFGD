@@ -1,0 +1,26 @@
+# Conda environment for the Nicotiana breeding-genomics workflows.
+#
+#   conda env create -f environment.yml
+#   conda activate nt-breeding
+#
+# Only the Python-side dependencies are pinned here. External command-line
+# tools should be installed separately; recommended versions are listed in
+# docs/workflows.md (section "Software versions").
+name: nt-breeding
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - pyfaidx
+  - biopython
+  - pysam
+  - pip
+  - pip:
+      - gff3-parser

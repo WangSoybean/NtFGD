@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the associated manuscript."
+title: "Nicotiana breeding-genomics analysis code"
+abstract: >-
+  Code accompanying the manuscript describing literature mining, genome
+  assembly quality assessment, functional annotation, gene-ID conversion,
+  RNA-seq quantification and sgRNA design workflows for Nicotiana
+  (tobacco) breeding.
+# TODO: replace the placeholder metadata below with the final values.
+authors:
+  - family-names: "<Surname>"
+    given-names: "<Given name>"
+    affiliation: "<Lab / Institute>"
+# version should match the git tag referenced in the manuscript (e.g. v1.0.0)
+version: "1.0.0"
+date-released: "2024-01-01"
+license: MIT
+repository-code: "https://github.com/<USER>/<REPO>"
+# identifiers:
+#   - type: doi
+#     value: "10.xxxx/xxxxx"   # Zenodo DOI of the release, if archived

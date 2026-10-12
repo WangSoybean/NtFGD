@@ -1,0 +1,56 @@
+# ---------------------------------------------------------------------
+# Large data / intermediate files — NEVER commit these.
+# ---------------------------------------------------------------------
+data/raw/
+data/annotation/
+data/star_index/
+work/
+results/
+software/
+third_party/
+
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+*.bam
+*.bai
+*.sam
+*.genome.fasta
+*.cds.fasta
+*.pep.fasta
+*.genome.fa
+*.cds
+*.pep
+*.gff3
+*.gtf
+*.db
+*.obo
+*.xlsx
+logs/
+
+# literature-mining outputs
+plant_gene_function_*.tsv
+meraged_plant_gene_function.tsv
+
+# ---------------------------------------------------------------------
+# Local configuration (contains machine-specific paths)
+# ---------------------------------------------------------------------
+config/config.yaml
+config/samples.tsv
+
+# ---------------------------------------------------------------------
+# Agent/workspace metadata (never commit)
+# ---------------------------------------------------------------------
+.workbuddy/
+
+# ---------------------------------------------------------------------
+# Python / editor noise
+# ---------------------------------------------------------------------
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,11 @@
+﻿# Sample sheet used by the RNA-seq workflow.
+# Tab-separated. Copy to `config/samples.tsv` and fill in your samples.
+#
+# column 1  sample_id : the name of the *.bam file with the
+#                       "Aligned.sortedByCoord.out.bam" suffix removed
+# column 2  label     : free-text label used in figures, format "Tissue#Species"
+#
+#sample_id	label
+SRR0000001	Root#Ntab_K326
+SRR0000002	Leaf#Ntab_K326
+SRR0000003	Stem#Ntab_SR1

@@ -1,0 +1,108 @@
+# =====================================================================
+# Central configuration for the Nicotiana breeding-genomics workflows.
+#
+# Copy this file to `config/config.yaml` and edit the paths for your
+# own machine / cluster.  Every shell script and Python script in this
+# repository reads its inputs from here instead of hard-coded paths, so
+# that the whole analysis can be reproduced by editing ONE file.
+#
+#   cp config/config.example.yaml config/config.yaml
+#
+# Notes for reviewers / reproducers
+# ---------------------------------
+# * All paths may be absolute or relative to the repository root.
+# * `reference_species` lists the genome assemblies used throughout the
+#   manuscript. Each name must match the prefix of the corresponding
+#   *.genome.fasta / *.cds.fasta / *.pep.fasta / *.gff3 files in
+#   `data/annotation/`.
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# Project layout (relative to repository root unless absolute)
+# ---------------------------------------------------------------------
+paths:
+  raw_data:        data/raw            # raw RNA-seq fastq.gz + genome files (not in git)
+  annotation_dir:  data/annotation     # genome / cds / pep / gff3 per assembly
+  work_dir:        work                # intermediate files produced by the pipeline
+  results_dir:     results             # final summary tables and figures
+  software_dir:    software            # local tool installs (QUAST, BUSCO, eggNOG, ...)
+
+# ---------------------------------------------------------------------
+# Genome assemblies analysed in the manuscript.
+# The order defines the order used by loops in the shell scripts.
+# ---------------------------------------------------------------------
+reference_species:
+  - Ntab_K326-BAT-2017-chromosome-v4.5
+  - Ntab_SR1-HZAU-2024-chromosome-v1
+  - Ntab_ZY300-CAAS-2024-chromosome-v1
+  - Nben-HZAU-2024-chromosome-v1
+  - Nsyl-CAAS-2024-chromosome-v1
+  - Ntom-CAAS-2024-chromosome-v1
+  # ... add the remaining assemblies used in the manuscript here
+
+# ---------------------------------------------------------------------
+# Annotation / ontology resources
+# ---------------------------------------------------------------------
+annotation:
+  # >>> TODO (reviewer comment #2) <<<
+  # The Methods section of the manuscript cites an ontology file whose
+  # name does NOT match the file shipped in this repository.  Set the
+  # value below to the EXACT filename used in the manuscript, and make
+  # sure the same file is committed under config/ (or data/ontology/).
+  # Then update the Methods text so both agree.
+  ontology_file: "TODO_replace_with_manuscript_ontology_filename.obo"
+
+  eggnog_data_dir:   software/eggnog-mapper-2.1.13/data
+  interproscan_dir:  software/interproscan-5.76-107.0
+  swissprot_db:      software/blastdb/swissprot
+
+# ---------------------------------------------------------------------
+# Assembly-quality tools
+# ---------------------------------------------------------------------
+assembly_qc:
+  quast_bin:      quast.py
+  busco_bin:      busco
+  busco_lineages:
+    - embryophyta_odb12
+    - eudicotyledons_odb12
+  busco_mode_genome:       genome
+  busco_mode_transcriptome: transcriptome
+
+# ---------------------------------------------------------------------
+# RNA-seq parameters
+# ---------------------------------------------------------------------
+rnaseq:
+  # fastp
+  fastp:
+    qualified_quality_phred: 20     # -q
+    unqualified_percent_limit: 40   # -u
+    n_base_limit: 5                 # -n
+    length_required: 50             # -l
+  # STAR
+  star:
+    genome_index_dir: data/star_index
+    indices:                        # STAR indices built from the assemblies above
+      - NtSR1Index149
+      - NtZY300Index149
+    run_threads: 22
+    limit_bam_sort_ram: 20000000000
+  # featureCounts
+  featurecounts:
+    threads: 22
+    feature_type: exon              # -t
+    attribute: transcript_id        # -g
+    paired: true                    # -p --countReadPairs
+  # gene expression filtering
+  filtering:
+    min_cpm: 1
+    min_samples: 1
+
+# ---------------------------------------------------------------------
+# Gene-ID conversion (jcvi synteny + LAST)
+# ---------------------------------------------------------------------
+gene_id_conversion:
+  jcvi_cscore: 0.99
+  jcvi_minspan: 30
+  last_filter_criteria:
+    min_identity: 0
+    min_aln_len: 0

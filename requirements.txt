@@ -1,0 +1,22 @@
+# Python dependencies for the analysis scripts in this repository.
+# Install with:  pip install -r requirements.txt
+#
+# NOTE: command-line tools (STAR, featureCounts, fastp, QUAST, BUSCO,
+# eggNOG-mapper, InterProScan, BLAST+, LAST, MCScanX/jcvi, GuideScan)
+# are NOT pip-installable and must be installed separately — see
+# environment.yml and docs/workflows.md.
+
+pandas>=1.5
+numpy>=1.23
+matplotlib>=3.6
+seaborn>=0.12
+scikit-learn>=1.2
+pyfaidx>=0.7
+biopython>=1.80
+gff3-parser>=0.1
+pysam>=0.21
+# literature mining
+requests>=2.28
+lxml>=4.9
+tqdm>=4.65
+openpyxl>=3.1

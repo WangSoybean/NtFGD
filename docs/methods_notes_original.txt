@@ -1,0 +1,641 @@
+for n in Nicotiana_*/N*/*genome.fasta ; do m=`basename $n` ; quast.py $n -o quast/$m --large ; done
+
+multiqc .
+export _JAVA_OPTIONS="-Xmx64g"
+for n in Nicotiana_*/N*/*genome.fasta ; do m=`basename ${n}` ; echo $m ; busco -i ${n} -l ./busco_db/embryophyta_odb12 -m genome -o tobacco_genome_embryophyta/${m} --cpu 22 --offline -f ; done
+for n in Nicotiana_*/N*/*genome.fasta ; do m=`basename ${n}` ; echo $m ; busco -i ${n} -l ./busco_db/eudicotyledons_odb12 -m genome -o tobacco_genome_eudicotyledons/${m} --cpu 22 --offline -f ; done
+
+for n in Nicotiana_*/N*/*cds.fasta ; do m=`basename ${n}` ; echo $m ; busco -i ${n} -l ./busco_db/embryophyta_odb12 -m transcriptome -o tobacco_cds_embryophyta/${m} --cpu 22 --offline -f ; done
+for n in Nicotiana_*/N*/*cds.fasta ; do m=`basename ${n}` ; echo $m ; busco -i ${n} -l ./busco_db/eudicotyledons_odb12 -m transcriptome -o tobacco_cds_eudicotyledons/${m} --cpu 22 --offline -f ; done
+
+
+for n in `cat name` ; do echo $n ; python merage_eggnog_interproscan.py -e eggnog_out/${n}.emapper -i interproscan_out/${n}.interproscan -o ${n}.annotation ; done
+for n in *emapper ; do echo $n ; python build_embeddings.py --genome ${n/.annotation/} ; done
+
+
+# GeneLocation 
+cat Natt-MPICE-2016-chromosome-v2.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Natt-MPICE-2016-chromosome-v2.genelocation
+cat Nben-HZAU-2024-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^Chr/,"",$1); sub(/^0+/,"",$1); print }' > Nben-HZAU-2024-chromosome-v1.genelocation
+cat Nben_KLAB-KRIBB-2024-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^Chr/,"",$1); sub(/^0+/,"",$1); print }' > Nben_KLAB-KRIBB-2024-chromosome-v1.genelocation
+cat Nben_LAB-PKUIAAS-2024-T2T-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^Chr/,"",$1); sub(/^0+/,"",$1); print }' > Nben_LAB-PKUIAAS-2024-T2T-v1.genelocation
+cat Nben-NU-2023-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep gene | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Nben-NU-2023-chromosome-v1.genelocation
+cat Nsyl-CAAS-2024-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Nsyl-CAAS-2024-chromosome-v1.genelocation
+cat Nsyl-PMI-2023-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep transcript | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Nsyl-PMI-2023-chromosome-v1.genelocation
+cat Ntab_K326-BAT-2017-chromosome-v4.5.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Ntab_K326-BAT-2017-chromosome-v4.5.genelocation
+cat Ntab_K326-BAT-2017-chromosome-v4.5.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^Nt/,"",$1); sub(/^0+/,"",$1); print }' > Ntab_K326-BAT-2017-chromosome-v4.5.genelocation
+cat Ntab_K326-PMI-2023-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep transcript | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Ntab_K326-PMI-2023-chromosome-v1.genelocation
+cat Ntab_SR1-HZAU-2024-chromosome-v1.gff3| cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^Chr/,"",$1); sub(/^0+/,"",$1); print }' > Ntab_SR1-HZAU-2024-chromosome-v1.genelocation
+cat Ntab_ZY300-CAAS-2024-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^Chr/,"",$1); sub(/^0+/,"",$1); print }' > Ntab_ZY300-CAAS-2024-chromosome-v1.genelocation
+cat Ntom-CAAS-2024-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep mRNA | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Ntom-CAAS-2024-chromosome-v1.genelocation
+cat Ntom-PMI-2023-chromosome-v1.gff3 | cut -f 1 -d \; | sed 's/ID=//' | grep transcript | awk '{print $1,$4,$5,$7,$9}' |  awk '{gsub(/^chr/,"",$1); sub(/^0+/,"",$1); print }' > Ntom-PMI-2023-chromosome-v1.genelocation
+
+
+# jcvi
+
+cat Natt-MPICE-2016-chromosome-v2.1.gff3 | grep -v ^scaffo | cut -f 1 -d \; | awk '{if($3=="gene"){print $1,$4,$5,$9}}' | sed 's/ID=//' > Natt-MPICE-2016-chromosome-v2.1.bed
+cat Natt-MPICE-2016-chromosome-v2.1.cds.fasta | sed '/^>/s/.t1//' > Natt-MPICE-2016-chromosome-v2.1.cds
+
+cat Nben-HZAU-2024-chromosome-v1.gff3 | grep ^Chr | cut -f 1 -d \; | awk '{if($3=="gene"){print $1,$4,$5,$9}}' | sed 's/ID=//' > Nben-HZAU-2024-chromosome-v1.bed
+cat Nben-HZAU-2024-chromosome-v1.cds.fasta | cut -f 1 -d \. > Nben-HZAU-2024-chromosome-v1.cds
+
+conda activate busco
+export PATH=/home/wangsb/ORICO/software/last-main/bin:$PATH
+for n in `cat name` ; do for m in `cat name` ; do python -m jcvi.compara.catalog ortholog $n $m --no_strip_names --cscore=.99 ; done ; done
+for n in `cat name` ; do for m in `cat name` ; do python -m jcvi.compara.synteny screen --minspan=30 --simple ${n}.${m}.anchors ${n}.${m}.anchors.simple ; done ; done
+
+python -m jcvi.compara.synteny screen --minspan=30 --simple grape.peach.anchors grape.peach.anchors.new
+python -m jcvi.graphics.karyotype seqids layout
+
+
+
+# synteny
+cat Natt-MPICE-2016-chromosome-v2.1.gff3 | grep -v ^scaffo | cut -f 1 -d \; | awk '{if($3=="gene"){print $1,$4,$5,$9}}' | sed 's/ID=//' > Natt-MPICE-2016-chromosome-v2.1.bed
+cat Natt-MPICE-2016-chromosome-v2.1.cds.fasta | sed '/^>/s/.t1//' > Natt-MPICE-2016-chromosome-v2.1.cds
+
+cat Nben-HZAU-2024-chromosome-v1.gff3 | grep ^Chr | cut -f 1 -d \; | awk '{if($3=="gene"){print $1,$4,$5,$9}}' | sed 's/ID=//' > Nben-HZAU-2024-chromosome-v1.bed
+cat Nben-HZAU-2024-chromosome-v1.cds.fasta | cut -f 1 -d \. > Nben-HZAU-2024-chromosome-v1.cds
+
+conda activate busco
+export PATH=/home/wangsb/ORICO/software/last-main/bin:$PATH
+for n in `cat name` ; do for m in `cat name` ; do python -m jcvi.compara.catalog ortholog $n $m --no_strip_names --cscore=.99 ; done ; done
+
+# eggnog-mapper-2.1.13
+export PATH=/home/wangsb/ORICO/software/eggnog/eggnog-mapper-2.1.13:/home/wangsb/ORICO/software/eggnog/eggnog-mapper-2.1.13/eggnogmapper/bin:"$PATH"
+export EGGNOG_DATA_DIR=/home/wangsb/ORICO/software/eggnog/eggnog-mapper-2.1.13/data
+for n in `ls annotation` ; do echo $n ; ./emapper.py -i annotation/$n --itype proteins -m diamond --cpu 22 --tax_scope Viridiplantae --go_evidence all --pfam_realign realign --report_orthologs --target_orthologs all --output_dir emapper_out -o $n ; rm -rf emappertmp_* ; done
+for n in Ntab_Basma-PMI-2014-scaffold-v1.pep.fasta Ntab_K326-PMI-2014-scaffold-v1.pep.fasta Ntab_TN90-PMI-2014-scaffold-v1.pep.fasta ; do echo $n ; ./emapper.py -i annotation/$n --itype proteins -m diamond --cpu 22 --tax_scope Viridiplantae --go_evidence all --pfam_realign realign --report_orthologs --target_orthologs all --output_dir emapper_out -o $n ; rm -rf emappertmp_* ; done
+
+
+# interproscan-5.76-107.0
+for n in `ls fasta` ; do echo $n ; ./interproscan.sh -i fasta/$n -t p -cpu 22 -f tsv -goterms -iprlookup -pa -dp  -d interproscan_out ; done
+
+
+
+# RNAseq mapping and reads count
+# 质控
+for n in `cat name` ; do fastp -i ${n}_1.fastq.gz -I ${n}_2.fastq.gz -o clean/${n}.clean_1.fastq.gz -O clean/${n}.clean_2.fastq.gz -q 20 -u 40 -n 5 -l 50 -h clean/${n}_fastp.html -j clean/${n}_fastp.json ; done
+# Star比对
+for m in NtSR1Index149 NtZY300Index149 ; do ulimit -n 65535 ; STAR --genomeDir /home/wangsb/ORICO/RNAseq/starindex/$m --genomeLoad LoadAndExit ; for n in `cat name` ; do echo ${m}_${n} ; STAR --runThreadN 22 --genomeDir /home/wangsb/ORICO/RNAseq/starindex/$m  --genomeLoad LoadAndKeep --readFilesIn clean/${n}.clean_1.fastq.gz clean/${n}.clean_2.fastq.gz --outFileNamePrefix ${m}/${n} --outSAMtype BAM SortedByCoordinate --readFilesCommand zcat --limitBAMsortRAM 20000000000 ; done ; STAR --genomeDir /home/wangsb/ORICO/RNAseq/starindex/$m --genomeLoad Remove ; done
+# featureCounts
+cd NtZY300Index149/
+featureCounts -T 22 -p --countReadPairs -F GTF -t exon -g transcript_id --primary -a  /home/wangsb/ORICO/RNAseq/starindex/Nicotiana_tabacum-ZY300.gtf -o gene_counts.txt *Aligned.sortedByCoord.out.bam
+cd ..
+cd NtSR1Index149/
+featureCounts -T 22 -p --countReadPairs -F GTF -t exon -g transcript_id --primary -a /home/wangsb/ORICO/RNAseq/starindex/Nicotiana_tabacum_SR1_annotation_1.0.gtf -o gene_counts.txt *Aligned.sortedByCoord.out.bam
+cd ..
+然后就走RNAseq-pipline中的流程
+
+
+
+# GeneticInformation基因遗传信息解析
+import gff3_parser
+import pandas as pd
+from pyfaidx import Fasta
+from pathlib import Path
+from Bio.SeqUtils.ProtParam import ProteinAnalysis
+
+# 0.文件准备
+gff_file = "Nicotiana_tabacum-K326.gff3"
+cds_file = 'Nicotiana_tabacum-K326.cds'
+pep_file = 'Nicotiana_tabacum-K326.pep'
+gene_list = 'gene_list'
+
+# 1.解析gff文件
+gff_file_parser = gff_file+'.xls'
+gff_file_parser_judge = Path(gff_file_parser)
+if not gff_file_parser_judge.exists():
+    full_data = gff3_parser.parse_gff3(gff_file, verbose = True, parse_attributes = True)
+    full_data['Lenght'] = list(map(lambda x, y: int(y) - int(x) + 1, full_data['Start'], full_data['End']))
+    full_data.to_csv(gff_file_parser, sep='\t')
+
+# 2.解析cds和pep 文件
+cds = Fasta(cds_file)
+pep = Fasta(pep_file)
+cds_parser = cds_file+'.xls'
+pep_parser = pep_file+'.xls'
+cds_parser_judge = Path(cds_parser)
+pep_parser_judge = Path(pep_parser)
+if not cds_parser_judge.exists():
+    with open(cds_parser, 'w') as f:
+        for i in cds.keys():
+            print('{}\t{}'.format(i, len(cds[i])), file=f)
+            # print('{}\t{}\t{}'.format(i, len(cds[i]), cds[i]), file=f)
+
+if not pep_parser_judge.exists():
+    with open(pep_parser, 'w') as f:
+        for i in pep.keys():
+            seq = str(pep[i])
+            if seq.endswith('*'):
+                seq = seq[:-1]
+            print('{}\t{}\t{}'.format(i, len(seq), seq), file=f)
+
+
+def PepAnalysis(seq):
+    X = ProteinAnalysis(seq)
+    return '{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}\t{}\t{}'.format(X.isoelectric_point(),X.molecular_weight()/1000,X.instability_index(),X.aromaticity(),X.gravy(),X.molar_extinction_coefficient())
+
+
+# 3.统计
+gene_list_df = pd.DataFrame(pd.read_csv(gene_list, sep='\t', header=None))
+gene_list_df['ID'] = list(map(lambda x:x.replace('TU','model'), gene_list_df[0]))
+gff_file_parser_df = pd.DataFrame(pd.read_csv(gff_file_parser, sep='\t', index_col=0))
+cds_parser_df = pd.DataFrame(pd.read_csv(cds_parser, sep='\t'))
+cds_parser_df.columns = ['ID', 'cds length']
+# cds_parser_df.columns = ['ID', 'cds length', 'cds seq']
+pep_parser_df = pd.DataFrame(pd.read_csv(pep_parser, sep='\t'))
+pep_parser_df.columns = ['ID', 'pep length', 'pep seq']
+
+gene_list_df = pd.merge(gene_list_df, gff_file_parser_df, how='left', on=['ID'])
+
+print(gff_file_parser_df.head())
+gene_list_df = pd.merge(gene_list_df, cds_parser_df, how='left', on=['ID'])
+gene_list_df = pd.merge(gene_list_df, pep_parser_df, how='left', on=['ID'])
+gene_list_df['pI'] = list(map(lambda x:PepAnalysis(x).split('\t')[0], gene_list_df['pep seq']))
+gene_list_df['MW(kDa)'] = list(map(lambda x:PepAnalysis(x).split('\t')[1], gene_list_df['pep seq']))
+gene_list_df['instability_index'] = list(map(lambda x:PepAnalysis(x).split('\t')[2], gene_list_df['pep seq']))
+gene_list_df['aromaticity'] = list(map(lambda x:PepAnalysis(x).split('\t')[3], gene_list_df['pep seq']))
+gene_list_df['gravy'] = list(map(lambda x:PepAnalysis(x).split('\t')[4], gene_list_df['pep seq']))
+gene_list_df['molar_extinction_coefficient'] = list(map(lambda x:PepAnalysis(x).split('\t')[5], gene_list_df['pep seq']))
+
+# columns = ['ID', 'Seqid', 'Source', 'Type', 'Start', 'End', 'Score', 'Strand', 'Name', 'Lenght', 'cds length', 'pep length', 'pep seq', 'pI', 'MW']
+columns1 = ['ID', 'Seqid', 'Start', 'End', 'Strand', 'Lenght', 'cds length', 'pep length', 'pI', 'MW(kDa)','instability_index','aromaticity','gravy','molar_extinction_coefficient']
+columns2 = ['Gene ID', 'Chr', 'Start', 'End', 'Strand', 'Lenght', 'CDS Length', 'Protein Length', 'Isoelectric Point', 'MW(kDa)','Instability Index','Aromaticity','GRAVY','Molar Extinction Coefficient']
+gene_list_df = gene_list_df[columns1]
+gene_list_df.columns = columns2
+gene_list_df.to_csv('result.xls', sep='\t', index=False)
+
+
+
+# 基因组解析和序列提取
+import pandas as pd
+from pyfaidx import Fasta
+
+GenomeFast = Fasta('Nicotiana_tabacum-HD.genome.fa')
+GffTable = pd.DataFrame(pd.read_csv('Nicotiana_tabacum-HD.gff3', sep='\t', header=None))
+GffTable = GffTable[GffTable[2]=='gene']
+GffTable[8] = [x.split(';')[0].replace('ID=','') for x in list(GffTable[8])]
+Info = GffTable[GffTable[8].isin(['Ntab0107370', 'Ntab0107380', 'Ntab0107390', 'Ntab0107400','Ntab0107410'])]
+Sequence = ''
+for index, row in Info.iterrows():
+    Chr, Start, End, Gene = row[0], int(row[3]), int(row[4]), row[8]
+    Sequence = Sequence + '>{}\n{}\n'.format(Gene + '_gDNA', GenomeFast[Chr][Start:End])
+
+print(GffTable.head())
+print(Info)
+print(Sequence)
+
+
+# GuideScan sgRNA 设计
+python ../sgrna_pipeline.py Input.fasta ../Ntab_ZY300-CAAS-2024-chromosome-v1.genome.fasta.index sgRNA NGG 1
+
+
+(base) wangsb@ubuntu:~/NtExpDB/NtExpAtlas/data/GuideScan$ cat sgrna_pipeline.py
+#!/usr/bin/env python3
+import os
+import sys
+import csv
+import json
+import re
+import subprocess
+
+
+# ================== Step0: 工具路径 ==================
+GUIDESCAN_BIN = "~/NtExpDB/NtExpAtlas/guidescan/bin/guidescan"
+GENERATE_KMERS = "~/NtExpDB/NtExpAtlas/guidescan/scripts/generate_kmers.py"
+
+
+# ================== Step1: sgRNA过滤 ==================
+poly_pattern = re.compile(r'(A{4,}|T{4,}|C{4,}|G{4,})')
+dinuc_pattern = re.compile(r'((AT|TA|CG|GC){4,})')
+tttt_pattern = re.compile(r'T{4}')
+
+
+def gc_content(seq):
+    return sum(1 for c in seq if c in "GC") / len(seq)
+
+
+def seed_gc_ok(seq):
+    seed = seq[-12:]
+    gc = (seed.count('G') + seed.count('C')) / 12
+    return 0.2 <= gc <= 0.8
+
+
+def pass_filter(seq):
+    seq = seq.upper()
+    if len(seq) != 20: return False
+    if 'N' in seq: return False
+    if not (0.2 <= gc_content(seq) <= 0.8): return False
+    if poly_pattern.search(seq): return False
+    if dinuc_pattern.search(seq): return False
+    if tttt_pattern.search(seq): return False
+    if not seed_gc_ok(seq): return False
+    return True
+
+
+def filter_sgrna(infile, outfile):
+    with open(infile) as f, open(outfile, "w") as out:
+        out.write("id,sequence,pam,chromosome,position,sense\n")
+        next(f)
+        for line in f:
+            seq = line.strip().split(',')[1]
+            if pass_filter(seq):
+                out.write(line)
+
+
+# ================== Step2: off-target统计 ==================
+def safe_int(x):
+    try:
+        return int(x)
+    except:
+        return 0
+
+
+def summarize_offtarget(infile, outfile):
+    current_id = None
+    mm0 = mm1 = bulge = 0
+    current_seq = ""
+    spec = 0
+
+    with open(infile) as f, open(outfile, "w") as out:
+        next(f)
+        out.write("id,sgRNA,mm0_count,mm1_count,bulge_count,specificity\n")
+
+        for line in f:
+            parts = line.strip().split(',')
+            if "NA" in parts:
+                continue
+            if "specificity" in parts:
+                continue
+
+            sg_id = parts[0]
+            sgRNA = parts[1]
+            dist = safe_int(parts[5])
+            rna_b = safe_int(parts[7])
+            dna_b = safe_int(parts[8])
+            spec = parts[9]
+
+            if current_id is None:
+                current_id = sg_id
+                current_seq = sgRNA
+                current_spec = spec
+
+            if sg_id != current_id:
+                out.write(f"{current_id},{current_seq},{mm0},{mm1},{bulge},{current_spec}\n")
+                current_id = sg_id
+                current_seq = sgRNA
+                current_spec = spec
+                mm0 = mm1 = bulge = 0
+
+            if dist == 0:
+                mm0 += 1
+            elif dist == 1:
+                mm1 += 1
+
+            if rna_b > 0 or dna_b > 0:
+                bulge += 1
+
+        if current_id:
+            out.write(f"{current_id},{current_seq},{mm0},{mm1},{bulge},{spec}\n")
+
+
+# ================== Step3: FASTA读取 ==================
+def read_fasta_multi(fasta):
+    seqs = {}
+    current = None
+    with open(fasta) as f:
+        for line in f:
+            if line.startswith(">"):
+                current = line[1:].split()[0]
+                seqs[current] = ""
+            else:
+                seqs[current] += line.strip()
+    return seqs
+
+
+def parse_id(s):
+    gene = s.replace("sgRNA", "").split(":")[0]
+    pos = int(s.split(":")[1])
+    strand = s.split(":")[2]
+    return gene, pos, strand
+
+
+# ================== Step4: JSON + CSV ==================
+def build_outputs(fasta, sgrna_csv, out_json, out_csv, pam):
+    seqs = read_fasta_multi(fasta)
+    result = {}
+    table = []
+
+    with open(sgrna_csv) as f:
+        reader = csv.DictReader(f)
+
+        for i, row in enumerate(reader):
+            sg_id = row["id"]
+            seq = row["sgRNA"]
+
+            gene, pos, strand = parse_id(sg_id)
+            if gene not in seqs:
+                continue
+
+            if gene not in result:
+                result[gene] = {"gDNA": seqs[gene], "annotations": []}
+
+            if strand == '+':
+                start = pos - 1
+                end = start + len(seq.replace(pam, ""))
+            else:
+                start = pos - 1 + 3
+                end = start + len(seq.replace(pam, ""))
+
+            result[gene]["annotations"].append({
+                "type": "sgRNA",
+                "start": start,
+                "end": end,
+                "strand": 1 if strand == "+" else -1,
+                "id": f"{gene}_{i}",
+                "mm0": row["mm0_count"],
+                "seq": seq
+            })
+
+            table.append({
+                "gene": gene,
+                "id": f"{gene}_{i}",
+                "sgRNA": seq,
+                "start": start,
+                "end": end,
+                "strand": strand,
+                "mm0": row["mm0_count"],
+                "mm1": row["mm1_count"],
+                "bulge": row["bulge_count"],
+                "specificity": row["specificity"]
+            })
+
+    json.dump(result, open(out_json, "w"), indent=2)
+
+    with open(out_csv, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=table[0].keys())
+        writer.writeheader()
+        writer.writerows(table)
+
+
+# ================== 主流程 ==================
+def run_pipeline(fasta, genome_index, prefix, pam, mismatch):
+
+    print("🚀 Step1: generate kmers")
+    subprocess.run(
+        f"python {GENERATE_KMERS} --pam {pam} --kmer-length 20 --prefix {prefix} {fasta} > {prefix}.csv",
+        shell=True, check=True
+    )
+
+    print("🚀 Step2: filter sgRNA")
+    filter_sgrna(f"{prefix}.csv", f"{prefix}.filtered.csv")
+
+    print("🚀 Step3: guidescan enumerate")
+    subprocess.run(
+        f"{GUIDESCAN_BIN} enumerate -m {mismatch} --max-off-targets 10 "
+        f"--mode complete --format csv -n 6 "
+        f"--output {prefix}.filtered.csv.enumerate {genome_index} "
+        f"--kmers-file {prefix}.filtered.csv",
+        shell=True, check=True
+    )
+
+    print("🚀 Step4: summarize")
+    summarize_offtarget(
+        f"{prefix}.filtered.csv.enumerate",
+        f"{prefix}.final.csv"
+    )
+
+    print("🚀 Step5: build outputs")
+    build_outputs(
+        fasta,
+        f"{prefix}.final.csv",
+        f"{prefix}.json",
+        f"{prefix}.table.csv",
+        pam
+    )
+
+    print("✅ ALL DONE")
+
+
+# ================== CLI ==================
+if __name__ == "__main__":
+    if len(sys.argv) != 6:
+        print("Usage: python sgrna_pipeline.py input.fasta genome.index prefix pam mismatch")
+        sys.exit(1)
+
+    run_pipeline(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+
+
+(base) wangsb@ubuntu:~/NtExpDB/NtExpAtlas/data/GuideScan$ cat sgrna_pipeline_for_geneID.py
+import pandas as pd
+import sqlite3
+import json
+import ast
+import csv
+import argparse
+
+
+INPUT_FILE = "Input.xls"
+OUTPUT_JSON = "sgRNA.json"
+INPUT_FASTA = "Input.fasta"
+
+def query_sgrna(conn, chrom, start, end):
+    sql = """
+    SELECT id, sgRNA, mm0_count, mm1_count, specificity, Chr, Pos, direction
+    FROM sgrna
+    WHERE Chr = ?
+      AND Pos BETWEEN ? AND ?
+    ORDER BY Pos
+    """
+    return pd.read_sql_query(sql, conn, params=(chrom, start, end))
+
+# ================== Step3: FASTA读取 ==================
+def read_fasta_multi(fasta):
+    seqs = {}
+    current = None
+    with open(fasta) as f:
+        for line in f:
+            if line.startswith(">"):
+                current = line[1:].split()[0]
+                seqs[current] = ""
+            else:
+                seqs[current] += line.strip()
+    return seqs
+
+def build_json(genome_name):
+    DB_PATH = "../{}.db".format(genome_name)
+    seqs = read_fasta_multi(INPUT_FASTA)
+    df = pd.read_csv(INPUT_FILE, sep='\t')
+    conn = sqlite3.connect(DB_PATH)
+    results = {}
+    Alltable = []
+    for _, row in df.iterrows():
+        chrom = row['Chr']
+        gene = row['Gene']
+        up = int(row['UpStart'])
+        down = int(row['EndStart'])
+        SeqName = row['SeqName']
+        # ===== 查询 sgRNA =====
+        sgrna_df = query_sgrna(conn, chrom, up, down)
+        # ===== 解析 CDS =====
+        cds_list = ast.literal_eval(row['CDSInfo'])
+        annotations = []
+        table = []
+        # ===== CDS 注释 =====
+        for cds in cds_list:
+            cds_chr, cds_start, cds_end, cds_direction = cds
+            annotations.append({
+                "type": "CDS",
+                "start": cds_start - up - 1,
+                "end": cds_end - up,
+                'strand': 1 if cds_direction == '+' else -1,
+                "id": '{}-CDS'.format(gene),
+                "mm0": '0',
+                "specificity": 1,
+                "seq": 'seq',
+            })
+        # ===== sgRNA 注释 =====
+        for _, sg in sgrna_df.iterrows():
+            pos = int(sg['Pos'])
+            seq = sg['sgRNA']
+            strand = 1 if sg['direction'] == '+' else -1
+            if strand == 1:
+                sgrna_start = pos - up - 1
+                sgrna_end = sgrna_start + 20
+            else:
+                sgrna_start = pos - up + 2
+                sgrna_end = sgrna_start + 20
+            # sgRNA长度默认20bp
+            pam_start = sgrna_end
+            pam_end = pam_start + 3
+            # annotation
+            annotations.append({
+                "type": "sgRNA",
+                "start": sgrna_start,
+                "end": sgrna_end,
+                "strand": strand,
+                "id": sg['id'],
+                "mm0": str(sg['mm0_count']),
+                "specificity": sg['specificity'],
+                "seq": seq,
+            })
+            # annotations.append({
+            #     "type": "PAM",
+            #     "start": pam_start,
+            #     "end": pam_end,
+            #     "strand": strand
+            # })
+            # table 信息
+            table.append({
+                "gene": gene,
+                "id": sg['id'],
+                "sgRNA": seq,
+                "start": sgrna_start,
+                "end": sgrna_end,
+                "strand": strand,
+                "mm0": sg['mm0_count'],
+                "mm1": sg['mm1_count'],
+                "bulge": 0,
+                "specificity": sg['specificity']
+            })
+        # ===== 构建 gDNA =====
+        gDNA = seqs[SeqName]
+        results[gene] = {
+            "gDNA": gDNA,
+            "annotations": annotations,
+            "mismatches": []
+            # "table": table
+        }
+        # results.append({
+        #     "gDNA": gDNA,
+        #     "annotations": annotations,
+        #     "mismatches": []
+        #     # "table": table
+        # })
+        Alltable.extend(table)
+    if Alltable:
+        pd.DataFrame(Alltable).to_csv("sgRNA.table.csv", index=False)
+    else:
+        print("⚠️ Alltable 为空")
+    conn.close()
+
+    with open(OUTPUT_JSON, 'w') as f:
+        json.dump(results, f, indent=2)
+
+    print(f"✅ JSON 已生成: {OUTPUT_JSON}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="Generate sgRNA JSON from genome database"
+    )
+    parser.add_argument(
+        "--GenomeName",
+        required=True,
+        help="Genome database name (without .db suffix)"
+    )
+    args = parser.parse_args()
+    build_json(args.GenomeName)
+
+
+
+# IDConversion
+(base) wangsb@ubuntu:~/NtExpDB/NtExpAtlas/data/IDConversion$ cat 1.py
+import os.path
+
+import pandas as pd
+
+name = pd.DataFrame(pd.read_csv('name', sep='\t', header=None))
+
+def analysis(name):
+    anchors_file = "{}.lifted.anchors".format(name)
+    anchors_df = pd.read_csv(anchors_file, sep=r"\s+", comment="#", header=None, names=["gene1", "gene2", "synteny_score"])
+    anchor_rows = []
+    for _, row in anchors_df.iterrows():
+        g1, g2, score = row["gene1"], row["gene2"], row["synteny_score"]
+        anchor_rows.append({
+            "query_gene": g1,
+            "hit_gene": g2,
+            "method": "synteny",
+            "score": score,
+            "identity": '-',
+            "aln_len": '-'
+        })
+    anchor_result_df = pd.DataFrame(anchor_rows)
+    last_file = "{}.last.filtered".format(name)
+    if os.path.exists(last_file) & (not os.path.exists("{}.gene_conversion.tsv".format(name))) :
+        cols = ["query", "target", "identity", "aln_len", "mismatch", "gapopen", "q_start", "q_end", "t_start", "t_end", "strand", "bit_score"]
+        last_df = pd.read_csv(last_file, sep=r"\s+", header=None, names=cols)
+        last_df["blast_score"] = last_df["identity"] * last_df["aln_len"]
+        last_result_df = (
+            last_df
+            .sort_values("blast_score", ascending=False)
+            .drop_duplicates("query")
+            .assign(
+                query_gene=lambda x: x["query"],
+                hit_gene=lambda x: x["target"],
+                method="blast",
+                score=lambda x: x["blast_score"]
+            )[["query_gene", "hit_gene", "method", "score", "identity", "aln_len"]]
+        )
+        # anchors 里的 gene 集合
+        anchor_genes = set(anchor_result_df["query_gene"])
+        # 只保留 anchors 没覆盖到的 blast
+        last_filtered_df = last_result_df[~last_result_df["query_gene"].isin(anchor_genes)]
+        # 合并
+        final_result_df = pd.concat([anchor_result_df, last_filtered_df], ignore_index=True)
+        final_result_df = final_result_df.drop_duplicates("query_gene")
+        final_result_df = final_result_df.set_index("query_gene")
+        # 保存
+        final_result_df = final_result_df.sort_values("query_gene")
+        final_result_df.to_csv("{}.gene_conversion.tsv".format(name),sep="\t")
+
+# analysis('Ntom-PMI-2023-chromosome-v1.Ntom-CAAS-2024-chromosome-v1')
+
+for n in name[0]:
+    for m in name[0]:
+        print('{}.{}'.format(n, m))
+        analysis('{}.{}'.format(n,m))
+
+
+# Synteny
+python -m jcvi.graphics.karyotype seqids layout
+
