@@ -1,41 +1,62 @@
-# Ontology filename — reviewer comment #2
+# Ontology filename — reviewer comment #2 (resolved)
 
-## The issue
+## The reviewer's point
 
 > "The ontology filename in the Methods also differs from the file in the
 > repository."
 
-The manuscript's Methods cite an ontology file under one name, while the
-repository shipped a file under a different name. Because the ontology
-defines the term set used for annotation/enrichment, a mismatch makes the
-reported results hard to trace.
+## What the two names were
 
-## The fix applied here
+| Source | Filename |
+|---|---|
+| Manuscript Methods (Manuscript-v7) | `StructuredTobaccoBreedingTraitOntology.json` |
+| Repository (before this fix) | `config/StructuredTobaccoBreedingTargetSystem.json` |
 
-The ontology file is now referenced from **exactly one place**:
+The manuscript sentence reads:
 
-```yaml
-# config/config.yaml
-annotation:
-  ontology_file: "<the exact filename used in the manuscript>"
+> "The complete ontology structure is provided in the file
+> **StructuredTobaccoBreedingTraitOntology.json**, available in the
+> project repository."
+
+So the manuscript and the repository used two different names for the
+same file — exactly the mismatch the reviewer flagged.
+
+## The fix applied
+
+The repository file has been **renamed to match the manuscript**, so no
+change to the manuscript text is required:
+
+```
+literature_mining/config/StructuredTobaccoBreedingTargetSystem.json
+        ↓  renamed
+literature_mining/config/StructuredTobaccoBreedingTraitOntology.json
 ```
 
-The template value in `config/config.example.yaml` is deliberately a
-placeholder (`TODO_replace_with_manuscript_ontology_filename.obo`).
+All references were updated at the same time:
 
-## What you still need to do
+* `config/config.example.yaml` → `annotation.trait_ontology_file`
+* `literature_mining/3.run_breeding_evaluation.py` (default path)
+* `literature_mining/README.md`
+* `README.md`, `docs/workflows.md`
 
-1. Decide the single canonical filename (the one that will appear in the
-   revised Methods).
-2. Put the ontology file in the repository (small `.obo`/`.tab` files can
-   be committed directly; large ones should go to the archived release /
-   Zenodo) and set `annotation.ontology_file` to that name.
-3. Update the Methods text so the filename matches this value **exactly**
-   (including extension and any version suffix).
-4. If the file has a version, state it explicitly (e.g.
-   `go-basic.obo` release `2024-01-01`) so reviewers can fetch the same
-   release.
+The trait ontology is therefore referenced from exactly one place, and
+grepping the repository for the filename returns only the ontology file
+itself plus the paths that point at it.
 
-> The exact name cannot be inferred from the code alone; please fill it in
-> before the release. Once set, grepping the repository for the filename
-> should return only the config entry and the Methods text.
+> **If you would rather keep the repository name**, do the reverse
+> instead: revert the rename and change the Methods sentence to
+> `StructuredTobaccoBreedingTargetSystem.json`. Either way, the two must
+> match character-for-character, including the `.json` extension.
+
+## Two different ontologies are involved — do not confuse them
+
+| File | What it is | Where it appears |
+|---|---|---|
+| `StructuredTobaccoBreedingTraitOntology.json` | The three-tier tobacco breeding **trait** ontology (6 primary categories → secondary dimensions → tertiary traits) | Methods, "Tobacco breeding trait ontology" |
+| `go-basic.obo` (`https://geneontology.org/docs/download-ontology/`) | The Gene Ontology release used for GO enrichment | Methods, "Differential gene expression analysis" |
+
+Only the first one was mismatched. If you edit one filename in the
+Methods, double-check the other still matches the file you actually used.
+For `go-basic.obo`, also state the release date (e.g.
+`go-basic.obo, release 2024-01-01`) so reviewers can fetch the same
+release.

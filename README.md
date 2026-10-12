@@ -25,7 +25,9 @@ single configuration file.
 | sgRNA design | [`sgrna_design/`](sgrna_design/) | `sgrna_pipeline.py`, `sgrna_pipeline_for_geneID.py` |
 
 See [`docs/workflows.md`](docs/workflows.md) for a description of each
-step and the software versions used.
+step and the **exact software versions** (transcribed from the manuscript
+Methods), plus a short list of manuscript-vs-code discrepancies that
+still need to be reconciled before submission.
 
 ---
 
@@ -119,10 +121,13 @@ table above.
 
 **2. "The ontology filename in the Methods also differs from the file in
 the repository."**
-The ontology file is now a single configured value
-(`annotation.ontology_file` in `config/config.yaml`). See
-[`docs/ontology_note.md`](docs/ontology_note.md); the exact filename must
-be set once here and used consistently in the revised Methods.
+Resolved. The Methods cite `StructuredTobaccoBreedingTraitOntology.json`
+while the repository shipped `config/StructuredTobaccoBreedingTargetSystem.json`;
+the repository file has been **renamed to the manuscript name**, and every
+reference updated. The filename is now set once
+(`annotation.trait_ontology_file` in `config/config.yaml`). Details and
+the alternative fix (editing the Methods instead) are in
+[`docs/ontology_note.md`](docs/ontology_note.md).
 
 **3. "Without a release tied to the manuscript's counts and analyses…"**
 This repository is intended to be released as a tagged version whose tag

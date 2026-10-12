@@ -25,7 +25,11 @@ results are assembled into a queryable knowledge base.
 | `3.run_breeding_evaluation.py` | LLM-based breeding-relevance curation |
 | `4.build_tobacco_breeding_db.py` | Build the target knowledge base + statistics |
 | `config/Prompt.txt` | LLM prompt template (defines the output JSON schema) |
-| `config/StructuredTobaccoBreedingTargetSystem.json` | Primary / secondary / tertiary breeding-target list |
+| `config/StructuredTobaccoBreedingTraitOntology.json` | Three-tier tobacco breeding **trait ontology** (primary → secondary → tertiary trait terms) |
+
+> The ontology filename above is the one cited in the manuscript Methods.
+> Do not rename it without changing the Methods too — see
+> [`../docs/ontology_note.md`](../docs/ontology_note.md).
 
 `1.get_pubmed.py`, `3.run_breeding_evaluation.py` and
 `4.build_tobacco_breeding_db.py` were originally UTF-8; `2.merge_pubmed.py`

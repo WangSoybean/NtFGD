@@ -6,9 +6,9 @@ annotation table.
 
 | Script | Tool | Output |
 |---|---|---|
-| `1.run_eggnog_mapper.sh` | eggNOG-mapper 2.1.13 (DIAMOND mode) | `work/emapper_out/<name>.emapper.annotations` |
-| `2.run_interproscan.sh` | InterProScan 5.76-107.0 | `work/interproscan_out/<name>.tsv` |
-| `3.run_blastp_uniprot.sh` | BLASTP vs UniProt/Swiss-Prot | `work/blastp_out/<name>.swissprot.blastp.tsv` |
+| `1.run_eggnog_mapper.sh` | eggNOG-mapper v2.1.13 (DIAMOND mode) | `work/emapper_out/<name>.emapper.annotations` |
+| `2.run_interproscan.sh` | InterProScan v5.77 | `work/interproscan_out/<name>.tsv` |
+| `3.run_blastp_uniprot.sh` | BLASTP v2.17.0 vs UniProt/Swiss-Prot (E ≤ 1e-5) | `work/blastp_out/<name>.swissprot.blastp.tsv` |
 | `4.merge_eggnog_interproscan.py` | merge eggNOG + InterProScan | `<name>.annotation` |
 
 ## Running

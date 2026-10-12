@@ -44,16 +44,18 @@ reference_species:
 # Annotation / ontology resources
 # ---------------------------------------------------------------------
 annotation:
-  # >>> TODO (reviewer comment #2) <<<
-  # The Methods section of the manuscript cites an ontology file whose
-  # name does NOT match the file shipped in this repository.  Set the
-  # value below to the EXACT filename used in the manuscript, and make
-  # sure the same file is committed under config/ (or data/ontology/).
-  # Then update the Methods text so both agree.
-  ontology_file: "TODO_replace_with_manuscript_ontology_filename.obo"
+  # Tobacco breeding trait ontology (reviewer comment #2 — RESOLVED).
+  # The manuscript Methods cite this file by name; the repository now
+  # ships EXACTLY that filename (see docs/ontology_note.md). Do not rename
+  # one without renaming the other.
+  trait_ontology_file: literature_mining/config/StructuredTobaccoBreedingTraitOntology.json
+
+  # Gene Ontology release used for GO enrichment. Record the release date
+  # so reviewers can fetch the same file.
+  go_ontology_file:  data/ontology/go-basic.obo     # release: <YYYY-MM-DD>
 
   eggnog_data_dir:   software/eggnog-mapper-2.1.13/data
-  interproscan_dir:  software/interproscan-5.76-107.0
+  interproscan_dir:  software/interproscan-5.77
   swissprot_db:      software/blastdb/swissprot
 
 # ---------------------------------------------------------------------
@@ -98,7 +100,33 @@ rnaseq:
     min_samples: 1
 
 # ---------------------------------------------------------------------
-# Gene-ID conversion (jcvi synteny + LAST)
+# Software versions used for the manuscript (from the Methods section).
+# Keep this in sync with docs/workflows.md.
+# ---------------------------------------------------------------------
+versions:
+  sra_toolkit:      "3.30"
+  fastp:            "1.1.0"
+  star:             "2.7.11b"
+  featurecounts:    "2.1.1"      # Subread package
+  quast:            "5.3.0"
+  busco:            "6.0.0"
+  eggnog_mapper:    "2.1.13"
+  interproscan:     "5.77"
+  blast:            "2.17.0"
+  deseq2:           "1.50.0"
+  r:                "4.5"
+  clusterprofiler:  "4.18.4"
+  sequenceserver:   "3.0.1"
+  jbrowse:          "2"
+  # not versioned in the manuscript: MCScanX, JCVI, LAST, GuideScan,
+  # MultiQC, Genes_on_Chr, Cytoscape, Qwen3-14B
+
+# ---------------------------------------------------------------------
+# Gene-ID conversion
+# NOTE: the manuscript Methods describe this as "MCScanX collinearity +
+# BLASTP", but the code that produced the released tables uses
+# jcvi.compara.catalog (LAST-based) + a LAST fallback. See
+# docs/workflows.md ("Known manuscript-vs-code discrepancies").
 # ---------------------------------------------------------------------
 gene_id_conversion:
   jcvi_cscore: 0.99

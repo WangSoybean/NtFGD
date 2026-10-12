@@ -17,7 +17,7 @@
 set -euo pipefail
 
 # ------------------------- user configuration ------------------------
-IPR_DIR="${IPR_DIR:-software/interproscan-5.76-107.0}"
+IPR_DIR="${IPR_DIR:-software/interproscan-5.77}"
 PROTEIN_DIR="${PROTEIN_DIR:-data/annotation}"
 OUTPUT_DIR="${OUTPUT_DIR:-work/interproscan_out}"
 THREADS="${THREADS:-22}"

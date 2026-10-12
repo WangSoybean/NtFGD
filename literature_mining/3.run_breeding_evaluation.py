@@ -12,7 +12,7 @@
 # Inputs
 #   meraged_plant_gene_function.tsv                       (from step 2)
 #   config/Prompt.txt                                     (prompt template)
-#   config/StructuredTobaccoBreedingTargetSystem.json     (target list)
+#   config/StructuredTobaccoBreedingTraitOntology.json    (trait ontology)
 #
 # Outputs
 #   breeding_results.db          curated results (SQLite)
@@ -48,7 +48,7 @@ def build_prompt(prompt_template_path, all_tertiary):
     return template.replace("{{STRUCTURED_SYSTEM}}", "\n".join(all_tertiary))
 
 
-def load_structured_system(json_path="config/StructuredTobaccoBreedingTargetSystem.json"):
+def load_structured_system(json_path="config/StructuredTobaccoBreedingTraitOntology.json"):
     with open(json_path, "r", encoding="utf-8") as f:
         return json.load(f)
 

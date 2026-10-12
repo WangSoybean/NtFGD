@@ -9,9 +9,19 @@ and analyses. Work through this list before submitting the revision.
 - [ ] **Revoke & rotate the previously hard-coded API key** — the old
       key was committed publicly; see `SECURITY.md`. Required before the
       release.
-- [ ] **Set the ontology filename** — edit `config/config.yaml` and the
-      Methods text so both agree (`docs/ontology_note.md`).
-- [ ] **Fill the version table** in `docs/workflows.md`.
+- [x] **Set the ontology filename** — the repository file was renamed to
+      `StructuredTobaccoBreedingTraitOntology.json`, exactly as cited in
+      the Methods (`docs/ontology_note.md`). Nothing left to edit unless
+      you prefer to change the manuscript instead.
+- [x] **Fill the version table** in `docs/workflows.md` — done, using the
+      versions stated in the manuscript Methods (Manuscript-v7).
+- [ ] **Reconcile the manuscript-vs-code discrepancies** listed at the
+      end of `docs/workflows.md`:
+      - [ ] gene-ID conversion: Methods say MCScanX + BLASTP, the code
+            uses jcvi (LAST) + LAST fallback.
+      - [ ] InterProScan version: Methods v5.77 vs notes 5.76-107.0.
+      - [ ] QUAST `--large` / BUSCO lineage sets vs "default parameters".
+      - [ ] name the sgRNA tool (GuideScan) and LAST in the Methods.
 - [ ] **Add a `config.yaml` snapshot** used for the manuscript run
       (or record the parameters in the Methods).
 - [ ] **Add a `CHANGELOG.md`** describing this release.

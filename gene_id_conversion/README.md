@@ -46,3 +46,13 @@ bash 5.plot_karyotype.sh
   `SEQTYPE=protein` for a more sensitive protein-level alignment. Hits
   can be filtered with `MIN_IDENTITY` / `MIN_ALN_LEN`, and only the
   highest bit-score hit per query is retained.
+
+> ⚠️ **Manuscript wording differs.** The revised Methods describe this
+> step as "MCScanX collinearity analysis … verified by BLASTP similarity
+> searches", but the pipeline that was actually run (see
+> `../docs/methods_notes_original.txt`) is `jcvi.compara.catalog` — which
+> uses **LAST** internally for the pairwise homology search — followed by
+> `jcvi.compara.synteny screen` and a LAST-based fallback in
+> `4.convert_gene_ids.py`. Please make the Methods and the code agree:
+> either describe the jcvi/LAST pipeline that was run, or add an MCScanX
+> step and state which one produced the released tables.

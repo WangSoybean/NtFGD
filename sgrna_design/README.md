@@ -3,6 +3,11 @@
 Designs and scores sgRNAs for CRISPR targets and packages them for the
 web database.
 
+> Note: the manuscript Methods refer to "an integrated sgRNA design
+> module" without naming the tool. This workflow uses **GuideScan**
+> (`generate_kmers.py` + `guidescan enumerate`); name it in the Methods
+> for full traceability. See `../docs/workflows.md`.
+
 | Script | Purpose |
 |---|---|
 | `1.run_guidescan.sh` | example wrapper around `sgrna_pipeline.py` |
